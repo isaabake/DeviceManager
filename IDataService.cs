@@ -13,11 +13,14 @@ namespace DeviceManagerService
     public interface IDataService
     {
 
-        [OperationContract]
-        string GetData(int value);
+        //[OperationContract]
+        //string GetData(int value);
+
+        //[OperationContract]
+        //CompositeType GetDataUsingDataContract(CompositeType composite);
 
         [OperationContract]
-        CompositeType GetDataUsingDataContract(CompositeType composite);
+        List<Device> GetDevicesByName(string name);
 
         // TODO: Add your service operations here
     }

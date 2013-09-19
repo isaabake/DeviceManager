@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Web;
@@ -12,22 +13,18 @@ namespace DeviceManagerService
     // NOTE: In order to launch WCF Test Client for testing this service, please select Service1.svc or Service1.svc.cs at the Solution Explorer and start debugging.
     public class DataService : IDataService
     {
-        public string GetData(int value)
+        DeviceDatabaseClassesDataContext db = new DeviceDatabaseClassesDataContext();
+       
+        public List<Device> GetDevicesByName(string name)
         {
-            return string.Format("You entered: {0}", value);
+            var x =
+                from d in db.Devices
+                where d.Name.Contains(name)
+                select d;
+            //var query = from cust in db.
+            return x.ToList();
         }
 
-        public CompositeType GetDataUsingDataContract(CompositeType composite)
-        {
-            if (composite == null)
-            {
-                throw new ArgumentNullException("composite");
-            }
-            if (composite.BoolValue)
-            {
-                composite.StringValue += "Suffix";
-            }
-            return composite;
-        }
+
     }
 }

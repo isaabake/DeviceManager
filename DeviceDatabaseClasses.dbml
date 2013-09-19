@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="DeviceDatabase" Class="DeviceDatabaseClassesDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=(LocalDB)\v11.0;AttachDbFilename=|DataDirectory|\DeviceDatabase.mdf;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="DeviceDatabaseConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Devices" Member="Devices">
+    <Type Name="Device">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ParentID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Description" Type="System.String" DbType="VarChar(250)" CanBeNull="true" />
+      <Column Name="SerialNumber" Type="System.String" DbType="NChar(10)" CanBeNull="true" />
+      <Column Name="GUID" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="FirmwareRevision" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="PartNumber" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="FID_String" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="IsFolder" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Association Name="Device_Document" Member="Documents" ThisKey="ID" OtherKey="DeviceID" Type="Document" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Documents" Member="Documents">
+    <Type Name="Document">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Data" Type="System.Data.Linq.Binary" DbType="VarBinary(MAX)" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="DeviceID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Device_Document" Member="Device" ThisKey="DeviceID" OtherKey="ID" Type="Device" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>

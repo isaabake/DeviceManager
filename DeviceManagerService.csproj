@@ -62,7 +62,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\DeviceDatabase.mdf" />
-    <Content Include="App_Data\DeviceDatabase.sdf" />
     <Content Include="App_Data\DeviceDatabase_log.ldf">
       <DependentUpon>DeviceDatabase.mdf</DependentUpon>
     </Content>

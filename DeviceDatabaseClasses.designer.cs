@@ -36,6 +36,9 @@ namespace DeviceManagerService
     partial void InsertDocument(Document instance);
     partial void UpdateDocument(Document instance);
     partial void DeleteDocument(Document instance);
+    partial void InsertSerialConnection(SerialConnection instance);
+    partial void UpdateSerialConnection(SerialConnection instance);
+    partial void DeleteSerialConnection(SerialConnection instance);
     #endregion
 		
 		public DeviceDatabaseClassesDataContext() : 
@@ -83,6 +86,14 @@ namespace DeviceManagerService
 				return this.GetTable<Document>();
 			}
 		}
+		
+		public System.Data.Linq.Table<SerialConnection> SerialConnections
+		{
+			get
+			{
+				return this.GetTable<SerialConnection>();
+			}
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Devices")]
@@ -113,6 +124,8 @@ namespace DeviceManagerService
 		
 		private EntitySet<Document> _Documents;
 		
+		private EntitySet<SerialConnection> _SerialConnections;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -142,6 +155,7 @@ namespace DeviceManagerService
 		public Device()
 		{
 			this._Documents = new EntitySet<Document>(new Action<Document>(this.attach_Documents), new Action<Document>(this.detach_Documents));
+			this._SerialConnections = new EntitySet<SerialConnection>(new Action<SerialConnection>(this.attach_SerialConnections), new Action<SerialConnection>(this.detach_SerialConnections));
 			OnCreated();
 		}
 		
@@ -358,6 +372,19 @@ namespace DeviceManagerService
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Device_SerialConnection", Storage="_SerialConnections", ThisKey="ID", OtherKey="DeviceID")]
+		public EntitySet<SerialConnection> SerialConnections
+		{
+			get
+			{
+				return this._SerialConnections;
+			}
+			set
+			{
+				this._SerialConnections.Assign(value);
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -385,6 +412,18 @@ namespace DeviceManagerService
 		}
 		
 		private void detach_Documents(Document entity)
+		{
+			this.SendPropertyChanging();
+			entity.Device = null;
+		}
+		
+		private void attach_SerialConnections(SerialConnection entity)
+		{
+			this.SendPropertyChanging();
+			entity.Device = this;
+		}
+		
+		private void detach_SerialConnections(SerialConnection entity)
 		{
 			this.SendPropertyChanging();
 			entity.Device = null;
@@ -534,6 +573,325 @@ namespace DeviceManagerService
 					if ((value != null))
 					{
 						value.Documents.Add(this);
+						this._DeviceID = value.ID;
+					}
+					else
+					{
+						this._DeviceID = default(int);
+					}
+					this.SendPropertyChanged("Device");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.SerialConnection")]
+	public partial class SerialConnection : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private int _BaudRate;
+		
+		private int _DataBits;
+		
+		private int _StopBits;
+		
+		private System.Nullable<int> _Parity;
+		
+		private bool _RTS_CTS;
+		
+		private bool _DTR;
+		
+		private bool _RTS;
+		
+		private bool _XON_XOFF;
+		
+		private int _DeviceID;
+		
+		private EntityRef<Device> _Device;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnBaudRateChanging(int value);
+    partial void OnBaudRateChanged();
+    partial void OnDataBitsChanging(int value);
+    partial void OnDataBitsChanged();
+    partial void OnStopBitsChanging(int value);
+    partial void OnStopBitsChanged();
+    partial void OnParityChanging(System.Nullable<int> value);
+    partial void OnParityChanged();
+    partial void OnRTS_CTSChanging(bool value);
+    partial void OnRTS_CTSChanged();
+    partial void OnDTRChanging(bool value);
+    partial void OnDTRChanged();
+    partial void OnRTSChanging(bool value);
+    partial void OnRTSChanged();
+    partial void OnXON_XOFFChanging(bool value);
+    partial void OnXON_XOFFChanged();
+    partial void OnDeviceIDChanging(int value);
+    partial void OnDeviceIDChanged();
+    #endregion
+		
+		public SerialConnection()
+		{
+			this._Device = default(EntityRef<Device>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BaudRate", DbType="Int NOT NULL")]
+		public int BaudRate
+		{
+			get
+			{
+				return this._BaudRate;
+			}
+			set
+			{
+				if ((this._BaudRate != value))
+				{
+					this.OnBaudRateChanging(value);
+					this.SendPropertyChanging();
+					this._BaudRate = value;
+					this.SendPropertyChanged("BaudRate");
+					this.OnBaudRateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DataBits", DbType="Int NOT NULL")]
+		public int DataBits
+		{
+			get
+			{
+				return this._DataBits;
+			}
+			set
+			{
+				if ((this._DataBits != value))
+				{
+					this.OnDataBitsChanging(value);
+					this.SendPropertyChanging();
+					this._DataBits = value;
+					this.SendPropertyChanged("DataBits");
+					this.OnDataBitsChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StopBits", DbType="Int NOT NULL")]
+		public int StopBits
+		{
+			get
+			{
+				return this._StopBits;
+			}
+			set
+			{
+				if ((this._StopBits != value))
+				{
+					this.OnStopBitsChanging(value);
+					this.SendPropertyChanging();
+					this._StopBits = value;
+					this.SendPropertyChanged("StopBits");
+					this.OnStopBitsChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Parity", DbType="Int")]
+		public System.Nullable<int> Parity
+		{
+			get
+			{
+				return this._Parity;
+			}
+			set
+			{
+				if ((this._Parity != value))
+				{
+					this.OnParityChanging(value);
+					this.SendPropertyChanging();
+					this._Parity = value;
+					this.SendPropertyChanged("Parity");
+					this.OnParityChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RTS_CTS", DbType="Bit NOT NULL")]
+		public bool RTS_CTS
+		{
+			get
+			{
+				return this._RTS_CTS;
+			}
+			set
+			{
+				if ((this._RTS_CTS != value))
+				{
+					this.OnRTS_CTSChanging(value);
+					this.SendPropertyChanging();
+					this._RTS_CTS = value;
+					this.SendPropertyChanged("RTS_CTS");
+					this.OnRTS_CTSChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DTR", DbType="Bit NOT NULL")]
+		public bool DTR
+		{
+			get
+			{
+				return this._DTR;
+			}
+			set
+			{
+				if ((this._DTR != value))
+				{
+					this.OnDTRChanging(value);
+					this.SendPropertyChanging();
+					this._DTR = value;
+					this.SendPropertyChanged("DTR");
+					this.OnDTRChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RTS", DbType="Bit NOT NULL")]
+		public bool RTS
+		{
+			get
+			{
+				return this._RTS;
+			}
+			set
+			{
+				if ((this._RTS != value))
+				{
+					this.OnRTSChanging(value);
+					this.SendPropertyChanging();
+					this._RTS = value;
+					this.SendPropertyChanged("RTS");
+					this.OnRTSChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_XON_XOFF", DbType="Bit NOT NULL")]
+		public bool XON_XOFF
+		{
+			get
+			{
+				return this._XON_XOFF;
+			}
+			set
+			{
+				if ((this._XON_XOFF != value))
+				{
+					this.OnXON_XOFFChanging(value);
+					this.SendPropertyChanging();
+					this._XON_XOFF = value;
+					this.SendPropertyChanged("XON_XOFF");
+					this.OnXON_XOFFChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeviceID", DbType="Int NOT NULL")]
+		public int DeviceID
+		{
+			get
+			{
+				return this._DeviceID;
+			}
+			set
+			{
+				if ((this._DeviceID != value))
+				{
+					if (this._Device.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnDeviceIDChanging(value);
+					this.SendPropertyChanging();
+					this._DeviceID = value;
+					this.SendPropertyChanged("DeviceID");
+					this.OnDeviceIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Device_SerialConnection", Storage="_Device", ThisKey="DeviceID", OtherKey="ID", IsForeignKey=true)]
+		public Device Device
+		{
+			get
+			{
+				return this._Device.Entity;
+			}
+			set
+			{
+				Device previousValue = this._Device.Entity;
+				if (((previousValue != value) 
+							|| (this._Device.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Device.Entity = null;
+						previousValue.SerialConnections.Remove(this);
+					}
+					this._Device.Entity = value;
+					if ((value != null))
+					{
+						value.SerialConnections.Add(this);
 						this._DeviceID = value.ID;
 					}
 					else

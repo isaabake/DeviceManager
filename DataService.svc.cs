@@ -18,10 +18,18 @@ namespace DeviceManagerService
         public List<Device> GetDevicesByName(string name)
         {
             var x =
-                from d in db.Devices
+                from d in db.Device
                 where d.Name.Contains(name)
                 select d;
             //var query = from cust in db.
+            return x.ToList();
+        }
+
+        public List<Device> GetDevicesById(int id)
+        {
+            var x = from d in db.Device
+                    where d.ID.Equals(id)
+                    select d;
             return x.ToList();
         }
 

@@ -62,11 +62,17 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\DeviceDatabase.mdf" />
+    <Content Include="App_Data\DeviceDatabaseOld.mdf" />
+    <Content Include="App_Data\DeviceDatabaseOld_log.ldf">
+      <DependentUpon>DeviceDatabaseOld.mdf</DependentUpon>
+    </Content>
     <Content Include="App_Data\DeviceDatabase_log.ldf">
       <DependentUpon>DeviceDatabase.mdf</DependentUpon>
     </Content>
     <Content Include="DataService.svc" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Device.cs" />

@@ -5,8 +5,8 @@ using System.Web;
 
 namespace DeviceManagerService
 {
-    //public class Device
-    //{
+    public partial class Device
+    {
 
-    //}
+    }
 }

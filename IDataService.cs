@@ -22,6 +22,9 @@ namespace DeviceManagerService
         [OperationContract]
         List<Device> GetDevicesByName(string name);
 
+        [OperationContract]
+        List<Device> GetDevicesById(int id);
+
         // TODO: Add your service operations here
     }
 

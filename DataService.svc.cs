@@ -33,6 +33,12 @@ namespace DeviceManagerService
             return x.ToList();
         }
 
-
+        public List<Device> GetDevicesByParent(int pid)
+        {
+            var x = from d in db.Device
+                    where d.ID.Equals(pid)
+                    select d;
+            return x.ToList();
+        }
     }
 }

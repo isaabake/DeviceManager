@@ -18,7 +18,7 @@ namespace DeviceManagerService
         public List<Device> GetDevicesByName(string name)
         {
             var x =
-                from d in db.Device
+                from d in db.Devices
                 where d.Name.Contains(name)
                 select d;
             //var query = from cust in db.
@@ -27,7 +27,7 @@ namespace DeviceManagerService
 
         public List<Device> GetDevicesById(int id)
         {
-            var x = from d in db.Device
+            var x = from d in db.Devices
                     where d.ID.Equals(id)
                     select d;
             return x.ToList();
@@ -35,7 +35,7 @@ namespace DeviceManagerService
 
         public List<Device> GetDevicesByParent(int pid)
         {
-            var x = from d in db.Device
+            var x = from d in db.Devices
                     where d.ID.Equals(pid)
                     select d;
             return x.ToList();

@@ -10,7 +10,7 @@ namespace DeviceManagerService
 {
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the interface name "IService1" in both code and config file together.
     [ServiceContract]
-    public interface IDataService
+    public interface IDataSource
     {
 
         //[OperationContract]
@@ -19,14 +19,23 @@ namespace DeviceManagerService
         //[OperationContract]
         //CompositeType GetDataUsingDataContract(CompositeType composite);
 
-        [OperationContract]
-        List<Device> GetDevicesByName(string name);
+        //[OperationContract]
+        //List<Device> GetDevicesByName(string name);
+
+        //[OperationContract]
+        //List<Device> GetDevicesById(int id);
+
+        //[OperationContract]
+        //List<Device> GetDevicesByParent(int id);
 
         [OperationContract]
-        List<Device> GetDevicesById(int id);
+        IQueryable<Device> GetDevicesByName(string name);
 
         [OperationContract]
-        List<Device> GetDevicesByParent(int id);
+        IQueryable<Device> GetDevicesById(int id);
+
+        [OperationContract]
+        IQueryable<Device> GetDevicesByParent(int id);
 
         // TODO: Add your service operations here
     }

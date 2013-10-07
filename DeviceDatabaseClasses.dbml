@@ -10,15 +10,8 @@
       <Association Name="Node_Node" Member="Nodes" ThisKey="ID" OtherKey="ParentID" Type="Node" />
       <Association Name="Node_Document" Member="Documents" ThisKey="ID" OtherKey="NodeID" Type="Document" />
       <Association Name="Node_Node" Member="Node1" ThisKey="ParentID" OtherKey="ID" Type="Node" IsForeignKey="true" />
-      <Association Name="Folder_Node" Member="Folder" ThisKey="FolderID" OtherKey="ID" Type="Folder" IsForeignKey="true" />
       <Association Name="Device_Node" Member="Device" ThisKey="DeviceID" OtherKey="ID" Type="Device" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Folder" Member="Folders">
-    <Type Name="Folder">
-      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
-      <Association Name="Folder_Node" Member="Nodes" ThisKey="ID" OtherKey="FolderID" Type="Node" />
+      <Association Name="Folder_Node" Member="Folder" ThisKey="FolderID" OtherKey="ID" Type="Folder" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.ConnectionType" Member="ConnectionTypes">
@@ -34,6 +27,11 @@
       <Column Name="Name" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Column Name="DeviceTypeID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="ConnectionID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Description" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="SerialNumber" Type="System.String" DbType="Char(10)" CanBeNull="true" />
+      <Column Name="FirmwareRevision" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="PartNumber" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="FIDString" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Association Name="Device_Node" Member="Nodes" ThisKey="ID" OtherKey="DeviceID" Type="Node" />
       <Association Name="DeviceType_Device" Member="DeviceType" ThisKey="DeviceTypeID" OtherKey="ID" Type="DeviceType" IsForeignKey="true" />
       <Association Name="Connection_Device" Member="Connection" ThisKey="ConnectionID" OtherKey="ID" Type="Connection" IsForeignKey="true" />
@@ -56,10 +54,24 @@
       <Association Name="Node_Document" Member="Node" ThisKey="NodeID" OtherKey="ID" Type="Node" IsForeignKey="true" />
     </Type>
   </Table>
+  <Table Name="dbo.Folder" Member="Folders">
+    <Type Name="Folder">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="Folder_Node" Member="Nodes" ThisKey="ID" OtherKey="FolderID" Type="Node" />
+    </Type>
+  </Table>
   <Table Name="dbo.Connection" Member="Connections">
     <Type Name="Connection">
       <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="ConnectionTypeID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="BaudRate" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DataBits" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="StopBits" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="RTSCTS" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DTR" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="RTS" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="XonXoff" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="Connection_Device" Member="Devices" ThisKey="ID" OtherKey="ConnectionID" Type="Device" />
       <Association Name="ConnectionType_Connection" Member="ConnectionType" ThisKey="ConnectionTypeID" OtherKey="ID" Type="ConnectionType" IsForeignKey="true" />
     </Type>

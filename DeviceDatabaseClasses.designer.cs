@@ -30,6 +30,9 @@ namespace DeviceManagerService
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
+    partial void InsertConnection(Connection instance);
+    partial void UpdateConnection(Connection instance);
+    partial void DeleteConnection(Connection instance);
     partial void InsertNode(Node instance);
     partial void UpdateNode(Node instance);
     partial void DeleteNode(Node instance);
@@ -39,18 +42,18 @@ namespace DeviceManagerService
     partial void InsertDevice(Device instance);
     partial void UpdateDevice(Device instance);
     partial void DeleteDevice(Device instance);
+    partial void InsertDeviceDocument(DeviceDocument instance);
+    partial void UpdateDeviceDocument(DeviceDocument instance);
+    partial void DeleteDeviceDocument(DeviceDocument instance);
     partial void InsertDeviceType(DeviceType instance);
     partial void UpdateDeviceType(DeviceType instance);
     partial void DeleteDeviceType(DeviceType instance);
-    partial void InsertDocument(Document instance);
-    partial void UpdateDocument(Document instance);
-    partial void DeleteDocument(Document instance);
     partial void InsertFolder(Folder instance);
     partial void UpdateFolder(Folder instance);
     partial void DeleteFolder(Folder instance);
-    partial void InsertConnection(Connection instance);
-    partial void UpdateConnection(Connection instance);
-    partial void DeleteConnection(Connection instance);
+    partial void InsertFolderDocument(FolderDocument instance);
+    partial void UpdateFolderDocument(FolderDocument instance);
+    partial void DeleteFolderDocument(FolderDocument instance);
     #endregion
 		
 		public DeviceDatabaseClassesDataContext() : 
@@ -83,6 +86,14 @@ namespace DeviceManagerService
 			OnCreated();
 		}
 		
+		public System.Data.Linq.Table<Connection> Connections
+		{
+			get
+			{
+				return this.GetTable<Connection>();
+			}
+		}
+		
 		public System.Data.Linq.Table<Node> Nodes
 		{
 			get
@@ -107,19 +118,19 @@ namespace DeviceManagerService
 			}
 		}
 		
+		public System.Data.Linq.Table<DeviceDocument> DeviceDocuments
+		{
+			get
+			{
+				return this.GetTable<DeviceDocument>();
+			}
+		}
+		
 		public System.Data.Linq.Table<DeviceType> DeviceTypes
 		{
 			get
 			{
 				return this.GetTable<DeviceType>();
-			}
-		}
-		
-		public System.Data.Linq.Table<Document> Documents
-		{
-			get
-			{
-				return this.GetTable<Document>();
 			}
 		}
 		
@@ -131,40 +142,52 @@ namespace DeviceManagerService
 			}
 		}
 		
-		public System.Data.Linq.Table<Connection> Connections
+		public System.Data.Linq.Table<FolderDocument> FolderDocuments
 		{
 			get
 			{
-				return this.GetTable<Connection>();
+				return this.GetTable<FolderDocument>();
 			}
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Node")]
-	public partial class Node : INotifyPropertyChanging, INotifyPropertyChanged
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Connection")]
+	public partial class Connection : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
 		private int _ID;
 		
-		private string _Name;
+		private int _ConnectionTypeID;
 		
-		private System.Nullable<int> _ParentID;
+		private System.Nullable<int> _BaudRate;
 		
-		private System.Nullable<int> _DeviceID;
+		private System.Nullable<int> _DataBits;
 		
-		private System.Nullable<int> _FolderID;
+		private System.Nullable<int> _StopBits;
 		
-		private EntitySet<Node> _Nodes;
+		private string _Parity;
 		
-		private EntitySet<Document> _Documents;
+		private System.Nullable<int> _RTSCTS;
 		
-		private EntityRef<Node> _Node1;
+		private System.Nullable<bool> _DTR;
 		
-		private EntityRef<Device> _Device;
+		private System.Nullable<bool> _RTS;
 		
-		private EntityRef<Folder> _Folder;
+		private System.Nullable<bool> _XonXoff;
+		
+		private System.Nullable<int> _PhoneNumber;
+		
+		private string _ATString;
+		
+		private string _IPAddress;
+		
+		private System.Nullable<int> _PortNumber;
+		
+		private EntitySet<Device> _Devices;
+		
+		private EntityRef<ConnectionType> _ConnectionType;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -172,23 +195,38 @@ namespace DeviceManagerService
     partial void OnCreated();
     partial void OnIDChanging(int value);
     partial void OnIDChanged();
-    partial void OnNameChanging(string value);
-    partial void OnNameChanged();
-    partial void OnParentIDChanging(System.Nullable<int> value);
-    partial void OnParentIDChanged();
-    partial void OnDeviceIDChanging(System.Nullable<int> value);
-    partial void OnDeviceIDChanged();
-    partial void OnFolderIDChanging(System.Nullable<int> value);
-    partial void OnFolderIDChanged();
+    partial void OnConnectionTypeIDChanging(int value);
+    partial void OnConnectionTypeIDChanged();
+    partial void OnBaudRateChanging(System.Nullable<int> value);
+    partial void OnBaudRateChanged();
+    partial void OnDataBitsChanging(System.Nullable<int> value);
+    partial void OnDataBitsChanged();
+    partial void OnStopBitsChanging(System.Nullable<int> value);
+    partial void OnStopBitsChanged();
+    partial void OnParityChanging(string value);
+    partial void OnParityChanged();
+    partial void OnRTSCTSChanging(System.Nullable<int> value);
+    partial void OnRTSCTSChanged();
+    partial void OnDTRChanging(System.Nullable<bool> value);
+    partial void OnDTRChanged();
+    partial void OnRTSChanging(System.Nullable<bool> value);
+    partial void OnRTSChanged();
+    partial void OnXonXoffChanging(System.Nullable<bool> value);
+    partial void OnXonXoffChanged();
+    partial void OnPhoneNumberChanging(System.Nullable<int> value);
+    partial void OnPhoneNumberChanged();
+    partial void OnATStringChanging(string value);
+    partial void OnATStringChanged();
+    partial void OnIPAddressChanging(string value);
+    partial void OnIPAddressChanged();
+    partial void OnPortNumberChanging(System.Nullable<int> value);
+    partial void OnPortNumberChanged();
     #endregion
 		
-		public Node()
+		public Connection()
 		{
-			this._Nodes = new EntitySet<Node>(new Action<Node>(this.attach_Nodes), new Action<Node>(this.detach_Nodes));
-			this._Documents = new EntitySet<Document>(new Action<Document>(this.attach_Documents), new Action<Document>(this.detach_Documents));
-			this._Node1 = default(EntityRef<Node>);
-			this._Device = default(EntityRef<Device>);
-			this._Folder = default(EntityRef<Folder>);
+			this._Devices = new EntitySet<Device>(new Action<Device>(this.attach_Devices), new Action<Device>(this.detach_Devices));
+			this._ConnectionType = default(EntityRef<ConnectionType>);
 			OnCreated();
 		}
 		
@@ -212,22 +250,411 @@ namespace DeviceManagerService
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="VarChar(50)")]
-		public string Name
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ConnectionTypeID", DbType="Int NOT NULL")]
+		public int ConnectionTypeID
 		{
 			get
 			{
-				return this._Name;
+				return this._ConnectionTypeID;
 			}
 			set
 			{
-				if ((this._Name != value))
+				if ((this._ConnectionTypeID != value))
 				{
-					this.OnNameChanging(value);
+					if (this._ConnectionType.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnConnectionTypeIDChanging(value);
 					this.SendPropertyChanging();
-					this._Name = value;
-					this.SendPropertyChanged("Name");
-					this.OnNameChanged();
+					this._ConnectionTypeID = value;
+					this.SendPropertyChanged("ConnectionTypeID");
+					this.OnConnectionTypeIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BaudRate", DbType="Int")]
+		public System.Nullable<int> BaudRate
+		{
+			get
+			{
+				return this._BaudRate;
+			}
+			set
+			{
+				if ((this._BaudRate != value))
+				{
+					this.OnBaudRateChanging(value);
+					this.SendPropertyChanging();
+					this._BaudRate = value;
+					this.SendPropertyChanged("BaudRate");
+					this.OnBaudRateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DataBits", DbType="Int")]
+		public System.Nullable<int> DataBits
+		{
+			get
+			{
+				return this._DataBits;
+			}
+			set
+			{
+				if ((this._DataBits != value))
+				{
+					this.OnDataBitsChanging(value);
+					this.SendPropertyChanging();
+					this._DataBits = value;
+					this.SendPropertyChanged("DataBits");
+					this.OnDataBitsChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StopBits", DbType="Int")]
+		public System.Nullable<int> StopBits
+		{
+			get
+			{
+				return this._StopBits;
+			}
+			set
+			{
+				if ((this._StopBits != value))
+				{
+					this.OnStopBitsChanging(value);
+					this.SendPropertyChanging();
+					this._StopBits = value;
+					this.SendPropertyChanged("StopBits");
+					this.OnStopBitsChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Parity", DbType="Char(4)")]
+		public string Parity
+		{
+			get
+			{
+				return this._Parity;
+			}
+			set
+			{
+				if ((this._Parity != value))
+				{
+					this.OnParityChanging(value);
+					this.SendPropertyChanging();
+					this._Parity = value;
+					this.SendPropertyChanged("Parity");
+					this.OnParityChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RTSCTS", DbType="Int")]
+		public System.Nullable<int> RTSCTS
+		{
+			get
+			{
+				return this._RTSCTS;
+			}
+			set
+			{
+				if ((this._RTSCTS != value))
+				{
+					this.OnRTSCTSChanging(value);
+					this.SendPropertyChanging();
+					this._RTSCTS = value;
+					this.SendPropertyChanged("RTSCTS");
+					this.OnRTSCTSChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DTR", DbType="Bit")]
+		public System.Nullable<bool> DTR
+		{
+			get
+			{
+				return this._DTR;
+			}
+			set
+			{
+				if ((this._DTR != value))
+				{
+					this.OnDTRChanging(value);
+					this.SendPropertyChanging();
+					this._DTR = value;
+					this.SendPropertyChanged("DTR");
+					this.OnDTRChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RTS", DbType="Bit")]
+		public System.Nullable<bool> RTS
+		{
+			get
+			{
+				return this._RTS;
+			}
+			set
+			{
+				if ((this._RTS != value))
+				{
+					this.OnRTSChanging(value);
+					this.SendPropertyChanging();
+					this._RTS = value;
+					this.SendPropertyChanged("RTS");
+					this.OnRTSChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_XonXoff", DbType="Bit")]
+		public System.Nullable<bool> XonXoff
+		{
+			get
+			{
+				return this._XonXoff;
+			}
+			set
+			{
+				if ((this._XonXoff != value))
+				{
+					this.OnXonXoffChanging(value);
+					this.SendPropertyChanging();
+					this._XonXoff = value;
+					this.SendPropertyChanged("XonXoff");
+					this.OnXonXoffChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PhoneNumber", DbType="Int")]
+		public System.Nullable<int> PhoneNumber
+		{
+			get
+			{
+				return this._PhoneNumber;
+			}
+			set
+			{
+				if ((this._PhoneNumber != value))
+				{
+					this.OnPhoneNumberChanging(value);
+					this.SendPropertyChanging();
+					this._PhoneNumber = value;
+					this.SendPropertyChanged("PhoneNumber");
+					this.OnPhoneNumberChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ATString", DbType="VarChar(512)")]
+		public string ATString
+		{
+			get
+			{
+				return this._ATString;
+			}
+			set
+			{
+				if ((this._ATString != value))
+				{
+					this.OnATStringChanging(value);
+					this.SendPropertyChanging();
+					this._ATString = value;
+					this.SendPropertyChanged("ATString");
+					this.OnATStringChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IPAddress", DbType="VarChar(15)")]
+		public string IPAddress
+		{
+			get
+			{
+				return this._IPAddress;
+			}
+			set
+			{
+				if ((this._IPAddress != value))
+				{
+					this.OnIPAddressChanging(value);
+					this.SendPropertyChanging();
+					this._IPAddress = value;
+					this.SendPropertyChanged("IPAddress");
+					this.OnIPAddressChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PortNumber", DbType="Int")]
+		public System.Nullable<int> PortNumber
+		{
+			get
+			{
+				return this._PortNumber;
+			}
+			set
+			{
+				if ((this._PortNumber != value))
+				{
+					this.OnPortNumberChanging(value);
+					this.SendPropertyChanging();
+					this._PortNumber = value;
+					this.SendPropertyChanged("PortNumber");
+					this.OnPortNumberChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Connection_Device", Storage="_Devices", ThisKey="ID", OtherKey="ConnectionID")]
+		public EntitySet<Device> Devices
+		{
+			get
+			{
+				return this._Devices;
+			}
+			set
+			{
+				this._Devices.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ConnectionType_Connection", Storage="_ConnectionType", ThisKey="ConnectionTypeID", OtherKey="ID", IsForeignKey=true)]
+		public ConnectionType ConnectionType
+		{
+			get
+			{
+				return this._ConnectionType.Entity;
+			}
+			set
+			{
+				ConnectionType previousValue = this._ConnectionType.Entity;
+				if (((previousValue != value) 
+							|| (this._ConnectionType.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._ConnectionType.Entity = null;
+						previousValue.Connections.Remove(this);
+					}
+					this._ConnectionType.Entity = value;
+					if ((value != null))
+					{
+						value.Connections.Add(this);
+						this._ConnectionTypeID = value.ID;
+					}
+					else
+					{
+						this._ConnectionTypeID = default(int);
+					}
+					this.SendPropertyChanged("ConnectionType");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Devices(Device entity)
+		{
+			this.SendPropertyChanging();
+			entity.Connection = this;
+		}
+		
+		private void detach_Devices(Device entity)
+		{
+			this.SendPropertyChanging();
+			entity.Connection = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Node")]
+	public partial class Node : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ID;
+		
+		private System.Nullable<int> _ParentID;
+		
+		private System.Nullable<int> _DeviceID;
+		
+		private System.Nullable<int> _FolderID;
+		
+		private EntitySet<Node> _Nodes;
+		
+		private EntityRef<Node> _Node1;
+		
+		private EntityRef<Device> _Device;
+		
+		private EntityRef<Folder> _Folder;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIDChanging(int value);
+    partial void OnIDChanged();
+    partial void OnParentIDChanging(System.Nullable<int> value);
+    partial void OnParentIDChanged();
+    partial void OnDeviceIDChanging(System.Nullable<int> value);
+    partial void OnDeviceIDChanged();
+    partial void OnFolderIDChanging(System.Nullable<int> value);
+    partial void OnFolderIDChanged();
+    #endregion
+		
+		public Node()
+		{
+			this._Nodes = new EntitySet<Node>(new Action<Node>(this.attach_Nodes), new Action<Node>(this.detach_Nodes));
+			this._Node1 = default(EntityRef<Node>);
+			this._Device = default(EntityRef<Device>);
+			this._Folder = default(EntityRef<Folder>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this.OnIDChanging(value);
+					this.SendPropertyChanging();
+					this._ID = value;
+					this.SendPropertyChanged("ID");
+					this.OnIDChanged();
 				}
 			}
 		}
@@ -314,19 +741,6 @@ namespace DeviceManagerService
 			set
 			{
 				this._Nodes.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Node_Document", Storage="_Documents", ThisKey="ID", OtherKey="NodeID")]
-		public EntitySet<Document> Documents
-		{
-			get
-			{
-				return this._Documents;
-			}
-			set
-			{
-				this._Documents.Assign(value);
 			}
 		}
 		
@@ -462,18 +876,6 @@ namespace DeviceManagerService
 		{
 			this.SendPropertyChanging();
 			entity.Node1 = null;
-		}
-		
-		private void attach_Documents(Document entity)
-		{
-			this.SendPropertyChanging();
-			entity.Node = this;
-		}
-		
-		private void detach_Documents(Document entity)
-		{
-			this.SendPropertyChanging();
-			entity.Node = null;
 		}
 	}
 	
@@ -617,9 +1019,11 @@ namespace DeviceManagerService
 		
 		private EntitySet<Node> _Nodes;
 		
-		private EntityRef<DeviceType> _DeviceType;
+		private EntitySet<DeviceDocument> _DeviceDocuments;
 		
 		private EntityRef<Connection> _Connection;
+		
+		private EntityRef<DeviceType> _DeviceType;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -648,8 +1052,9 @@ namespace DeviceManagerService
 		public Device()
 		{
 			this._Nodes = new EntitySet<Node>(new Action<Node>(this.attach_Nodes), new Action<Node>(this.detach_Nodes));
-			this._DeviceType = default(EntityRef<DeviceType>);
+			this._DeviceDocuments = new EntitySet<DeviceDocument>(new Action<DeviceDocument>(this.attach_DeviceDocuments), new Action<DeviceDocument>(this.detach_DeviceDocuments));
 			this._Connection = default(EntityRef<Connection>);
+			this._DeviceType = default(EntityRef<DeviceType>);
 			OnCreated();
 		}
 		
@@ -673,7 +1078,7 @@ namespace DeviceManagerService
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="VarChar(50)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="VarChar(128)")]
 		public string Name
 		{
 			get
@@ -781,7 +1186,7 @@ namespace DeviceManagerService
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FirmwareRevision", DbType="VarChar(50)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FirmwareRevision", DbType="VarChar(64)")]
 		public string FirmwareRevision
 		{
 			get
@@ -801,7 +1206,7 @@ namespace DeviceManagerService
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PartNumber", DbType="VarChar(50)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PartNumber", DbType="VarChar(64)")]
 		public string PartNumber
 		{
 			get
@@ -821,7 +1226,7 @@ namespace DeviceManagerService
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FIDString", DbType="VarChar(50)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FIDString", DbType="VarChar(64)")]
 		public string FIDString
 		{
 			get
@@ -854,37 +1259,16 @@ namespace DeviceManagerService
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="DeviceType_Device", Storage="_DeviceType", ThisKey="DeviceTypeID", OtherKey="ID", IsForeignKey=true)]
-		public DeviceType DeviceType
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Device_DeviceDocument", Storage="_DeviceDocuments", ThisKey="ID", OtherKey="DeviceID")]
+		public EntitySet<DeviceDocument> DeviceDocuments
 		{
 			get
 			{
-				return this._DeviceType.Entity;
+				return this._DeviceDocuments;
 			}
 			set
 			{
-				DeviceType previousValue = this._DeviceType.Entity;
-				if (((previousValue != value) 
-							|| (this._DeviceType.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._DeviceType.Entity = null;
-						previousValue.Devices.Remove(this);
-					}
-					this._DeviceType.Entity = value;
-					if ((value != null))
-					{
-						value.Devices.Add(this);
-						this._DeviceTypeID = value.ID;
-					}
-					else
-					{
-						this._DeviceTypeID = default(int);
-					}
-					this.SendPropertyChanged("DeviceType");
-				}
+				this._DeviceDocuments.Assign(value);
 			}
 		}
 		
@@ -922,6 +1306,40 @@ namespace DeviceManagerService
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="DeviceType_Device", Storage="_DeviceType", ThisKey="DeviceTypeID", OtherKey="ID", IsForeignKey=true)]
+		public DeviceType DeviceType
+		{
+			get
+			{
+				return this._DeviceType.Entity;
+			}
+			set
+			{
+				DeviceType previousValue = this._DeviceType.Entity;
+				if (((previousValue != value) 
+							|| (this._DeviceType.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._DeviceType.Entity = null;
+						previousValue.Devices.Remove(this);
+					}
+					this._DeviceType.Entity = value;
+					if ((value != null))
+					{
+						value.Devices.Add(this);
+						this._DeviceTypeID = value.ID;
+					}
+					else
+					{
+						this._DeviceTypeID = default(int);
+					}
+					this.SendPropertyChanged("DeviceType");
+				}
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -952,6 +1370,217 @@ namespace DeviceManagerService
 		{
 			this.SendPropertyChanging();
 			entity.Device = null;
+		}
+		
+		private void attach_DeviceDocuments(DeviceDocument entity)
+		{
+			this.SendPropertyChanging();
+			entity.Device = this;
+		}
+		
+		private void detach_DeviceDocuments(DeviceDocument entity)
+		{
+			this.SendPropertyChanging();
+			entity.Device = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DeviceDocument")]
+	public partial class DeviceDocument : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ID;
+		
+		private string _Name;
+		
+		private System.Data.Linq.Binary _Data;
+		
+		private int _DeviceID;
+		
+		private string _Description;
+		
+		private EntityRef<Device> _Device;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIDChanging(int value);
+    partial void OnIDChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnDataChanging(System.Data.Linq.Binary value);
+    partial void OnDataChanged();
+    partial void OnDeviceIDChanging(int value);
+    partial void OnDeviceIDChanged();
+    partial void OnDescriptionChanging(string value);
+    partial void OnDescriptionChanged();
+    #endregion
+		
+		public DeviceDocument()
+		{
+			this._Device = default(EntityRef<Device>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this.OnIDChanging(value);
+					this.SendPropertyChanging();
+					this._ID = value;
+					this.SendPropertyChanged("ID");
+					this.OnIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="VarChar(64) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Data", DbType="VarBinary(MAX) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public System.Data.Linq.Binary Data
+		{
+			get
+			{
+				return this._Data;
+			}
+			set
+			{
+				if ((this._Data != value))
+				{
+					this.OnDataChanging(value);
+					this.SendPropertyChanging();
+					this._Data = value;
+					this.SendPropertyChanged("Data");
+					this.OnDataChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DeviceID", DbType="Int NOT NULL")]
+		public int DeviceID
+		{
+			get
+			{
+				return this._DeviceID;
+			}
+			set
+			{
+				if ((this._DeviceID != value))
+				{
+					if (this._Device.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnDeviceIDChanging(value);
+					this.SendPropertyChanging();
+					this._DeviceID = value;
+					this.SendPropertyChanged("DeviceID");
+					this.OnDeviceIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="VarChar(MAX)")]
+		public string Description
+		{
+			get
+			{
+				return this._Description;
+			}
+			set
+			{
+				if ((this._Description != value))
+				{
+					this.OnDescriptionChanging(value);
+					this.SendPropertyChanging();
+					this._Description = value;
+					this.SendPropertyChanged("Description");
+					this.OnDescriptionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Device_DeviceDocument", Storage="_Device", ThisKey="DeviceID", OtherKey="ID", IsForeignKey=true)]
+		public Device Device
+		{
+			get
+			{
+				return this._Device.Entity;
+			}
+			set
+			{
+				Device previousValue = this._Device.Entity;
+				if (((previousValue != value) 
+							|| (this._Device.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Device.Entity = null;
+						previousValue.DeviceDocuments.Remove(this);
+					}
+					this._Device.Entity = value;
+					if ((value != null))
+					{
+						value.DeviceDocuments.Add(this);
+						this._DeviceID = value.ID;
+					}
+					else
+					{
+						this._DeviceID = default(int);
+					}
+					this.SendPropertyChanged("Device");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 	
@@ -1007,7 +1636,7 @@ namespace DeviceManagerService
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="VarChar(50)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="VarChar(32) NOT NULL", CanBeNull=false)]
 		public string Name
 		{
 			get
@@ -1093,181 +1722,6 @@ namespace DeviceManagerService
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Document")]
-	public partial class Document : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _ID;
-		
-		private string _Name;
-		
-		private System.Data.Linq.Binary _Data;
-		
-		private int _NodeID;
-		
-		private EntityRef<Node> _Node;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIDChanging(int value);
-    partial void OnIDChanged();
-    partial void OnNameChanging(string value);
-    partial void OnNameChanged();
-    partial void OnDataChanging(System.Data.Linq.Binary value);
-    partial void OnDataChanged();
-    partial void OnNodeIDChanging(int value);
-    partial void OnNodeIDChanged();
-    #endregion
-		
-		public Document()
-		{
-			this._Node = default(EntityRef<Node>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int ID
-		{
-			get
-			{
-				return this._ID;
-			}
-			set
-			{
-				if ((this._ID != value))
-				{
-					this.OnIDChanging(value);
-					this.SendPropertyChanging();
-					this._ID = value;
-					this.SendPropertyChanged("ID");
-					this.OnIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
-		public string Name
-		{
-			get
-			{
-				return this._Name;
-			}
-			set
-			{
-				if ((this._Name != value))
-				{
-					this.OnNameChanging(value);
-					this.SendPropertyChanging();
-					this._Name = value;
-					this.SendPropertyChanged("Name");
-					this.OnNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Data", DbType="VarBinary(MAX) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
-		public System.Data.Linq.Binary Data
-		{
-			get
-			{
-				return this._Data;
-			}
-			set
-			{
-				if ((this._Data != value))
-				{
-					this.OnDataChanging(value);
-					this.SendPropertyChanging();
-					this._Data = value;
-					this.SendPropertyChanged("Data");
-					this.OnDataChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NodeID", DbType="Int NOT NULL")]
-		public int NodeID
-		{
-			get
-			{
-				return this._NodeID;
-			}
-			set
-			{
-				if ((this._NodeID != value))
-				{
-					if (this._Node.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnNodeIDChanging(value);
-					this.SendPropertyChanging();
-					this._NodeID = value;
-					this.SendPropertyChanged("NodeID");
-					this.OnNodeIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Node_Document", Storage="_Node", ThisKey="NodeID", OtherKey="ID", IsForeignKey=true)]
-		public Node Node
-		{
-			get
-			{
-				return this._Node.Entity;
-			}
-			set
-			{
-				Node previousValue = this._Node.Entity;
-				if (((previousValue != value) 
-							|| (this._Node.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Node.Entity = null;
-						previousValue.Documents.Remove(this);
-					}
-					this._Node.Entity = value;
-					if ((value != null))
-					{
-						value.Documents.Add(this);
-						this._NodeID = value.ID;
-					}
-					else
-					{
-						this._NodeID = default(int);
-					}
-					this.SendPropertyChanged("Node");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Folder")]
 	public partial class Folder : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -1279,6 +1733,8 @@ namespace DeviceManagerService
 		private string _Name;
 		
 		private EntitySet<Node> _Nodes;
+		
+		private EntitySet<FolderDocument> _FolderDocuments;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -1293,6 +1749,7 @@ namespace DeviceManagerService
 		public Folder()
 		{
 			this._Nodes = new EntitySet<Node>(new Action<Node>(this.attach_Nodes), new Action<Node>(this.detach_Nodes));
+			this._FolderDocuments = new EntitySet<FolderDocument>(new Action<FolderDocument>(this.attach_FolderDocuments), new Action<FolderDocument>(this.detach_FolderDocuments));
 			OnCreated();
 		}
 		
@@ -1349,6 +1806,19 @@ namespace DeviceManagerService
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Folder_FolderDocument", Storage="_FolderDocuments", ThisKey="ID", OtherKey="FolderID")]
+		public EntitySet<FolderDocument> FolderDocuments
+		{
+			get
+			{
+				return this._FolderDocuments;
+			}
+			set
+			{
+				this._FolderDocuments.Assign(value);
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -1380,35 +1850,37 @@ namespace DeviceManagerService
 			this.SendPropertyChanging();
 			entity.Folder = null;
 		}
+		
+		private void attach_FolderDocuments(FolderDocument entity)
+		{
+			this.SendPropertyChanging();
+			entity.Folder = this;
+		}
+		
+		private void detach_FolderDocuments(FolderDocument entity)
+		{
+			this.SendPropertyChanging();
+			entity.Folder = null;
+		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Connection")]
-	public partial class Connection : INotifyPropertyChanging, INotifyPropertyChanged
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.FolderDocument")]
+	public partial class FolderDocument : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
 		private int _ID;
 		
-		private int _ConnectionTypeID;
+		private string _Name;
 		
-		private System.Nullable<int> _BaudRate;
+		private System.Data.Linq.Binary _Data;
 		
-		private System.Nullable<int> _DataBits;
+		private int _FolderID;
 		
-		private System.Nullable<int> _StopBits;
+		private string _Description;
 		
-		private System.Nullable<int> _RTSCTS;
-		
-		private System.Nullable<int> _DTR;
-		
-		private System.Nullable<int> _RTS;
-		
-		private System.Nullable<int> _XonXoff;
-		
-		private EntitySet<Device> _Devices;
-		
-		private EntityRef<ConnectionType> _ConnectionType;
+		private EntityRef<Folder> _Folder;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -1416,28 +1888,19 @@ namespace DeviceManagerService
     partial void OnCreated();
     partial void OnIDChanging(int value);
     partial void OnIDChanged();
-    partial void OnConnectionTypeIDChanging(int value);
-    partial void OnConnectionTypeIDChanged();
-    partial void OnBaudRateChanging(System.Nullable<int> value);
-    partial void OnBaudRateChanged();
-    partial void OnDataBitsChanging(System.Nullable<int> value);
-    partial void OnDataBitsChanged();
-    partial void OnStopBitsChanging(System.Nullable<int> value);
-    partial void OnStopBitsChanged();
-    partial void OnRTSCTSChanging(System.Nullable<int> value);
-    partial void OnRTSCTSChanged();
-    partial void OnDTRChanging(System.Nullable<int> value);
-    partial void OnDTRChanged();
-    partial void OnRTSChanging(System.Nullable<int> value);
-    partial void OnRTSChanged();
-    partial void OnXonXoffChanging(System.Nullable<int> value);
-    partial void OnXonXoffChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnDataChanging(System.Data.Linq.Binary value);
+    partial void OnDataChanged();
+    partial void OnFolderIDChanging(int value);
+    partial void OnFolderIDChanged();
+    partial void OnDescriptionChanging(string value);
+    partial void OnDescriptionChanged();
     #endregion
 		
-		public Connection()
+		public FolderDocument()
 		{
-			this._Devices = new EntitySet<Device>(new Action<Device>(this.attach_Devices), new Action<Device>(this.detach_Devices));
-			this._ConnectionType = default(EntityRef<ConnectionType>);
+			this._Folder = default(EntityRef<Folder>);
 			OnCreated();
 		}
 		
@@ -1461,213 +1924,120 @@ namespace DeviceManagerService
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ConnectionTypeID", DbType="Int NOT NULL")]
-		public int ConnectionTypeID
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="VarChar(64) NOT NULL", CanBeNull=false)]
+		public string Name
 		{
 			get
 			{
-				return this._ConnectionTypeID;
+				return this._Name;
 			}
 			set
 			{
-				if ((this._ConnectionTypeID != value))
+				if ((this._Name != value))
 				{
-					if (this._ConnectionType.HasLoadedOrAssignedValue)
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Data", DbType="VarBinary(MAX) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public System.Data.Linq.Binary Data
+		{
+			get
+			{
+				return this._Data;
+			}
+			set
+			{
+				if ((this._Data != value))
+				{
+					this.OnDataChanging(value);
+					this.SendPropertyChanging();
+					this._Data = value;
+					this.SendPropertyChanged("Data");
+					this.OnDataChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FolderID", DbType="Int NOT NULL")]
+		public int FolderID
+		{
+			get
+			{
+				return this._FolderID;
+			}
+			set
+			{
+				if ((this._FolderID != value))
+				{
+					if (this._Folder.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnConnectionTypeIDChanging(value);
+					this.OnFolderIDChanging(value);
 					this.SendPropertyChanging();
-					this._ConnectionTypeID = value;
-					this.SendPropertyChanged("ConnectionTypeID");
-					this.OnConnectionTypeIDChanged();
+					this._FolderID = value;
+					this.SendPropertyChanged("FolderID");
+					this.OnFolderIDChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BaudRate", DbType="Int")]
-		public System.Nullable<int> BaudRate
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="VarChar(MAX)")]
+		public string Description
 		{
 			get
 			{
-				return this._BaudRate;
+				return this._Description;
 			}
 			set
 			{
-				if ((this._BaudRate != value))
+				if ((this._Description != value))
 				{
-					this.OnBaudRateChanging(value);
+					this.OnDescriptionChanging(value);
 					this.SendPropertyChanging();
-					this._BaudRate = value;
-					this.SendPropertyChanged("BaudRate");
-					this.OnBaudRateChanged();
+					this._Description = value;
+					this.SendPropertyChanged("Description");
+					this.OnDescriptionChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DataBits", DbType="Int")]
-		public System.Nullable<int> DataBits
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Folder_FolderDocument", Storage="_Folder", ThisKey="FolderID", OtherKey="ID", IsForeignKey=true)]
+		public Folder Folder
 		{
 			get
 			{
-				return this._DataBits;
+				return this._Folder.Entity;
 			}
 			set
 			{
-				if ((this._DataBits != value))
-				{
-					this.OnDataBitsChanging(value);
-					this.SendPropertyChanging();
-					this._DataBits = value;
-					this.SendPropertyChanged("DataBits");
-					this.OnDataBitsChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StopBits", DbType="Int")]
-		public System.Nullable<int> StopBits
-		{
-			get
-			{
-				return this._StopBits;
-			}
-			set
-			{
-				if ((this._StopBits != value))
-				{
-					this.OnStopBitsChanging(value);
-					this.SendPropertyChanging();
-					this._StopBits = value;
-					this.SendPropertyChanged("StopBits");
-					this.OnStopBitsChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RTSCTS", DbType="Int")]
-		public System.Nullable<int> RTSCTS
-		{
-			get
-			{
-				return this._RTSCTS;
-			}
-			set
-			{
-				if ((this._RTSCTS != value))
-				{
-					this.OnRTSCTSChanging(value);
-					this.SendPropertyChanging();
-					this._RTSCTS = value;
-					this.SendPropertyChanged("RTSCTS");
-					this.OnRTSCTSChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DTR", DbType="Int")]
-		public System.Nullable<int> DTR
-		{
-			get
-			{
-				return this._DTR;
-			}
-			set
-			{
-				if ((this._DTR != value))
-				{
-					this.OnDTRChanging(value);
-					this.SendPropertyChanging();
-					this._DTR = value;
-					this.SendPropertyChanged("DTR");
-					this.OnDTRChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RTS", DbType="Int")]
-		public System.Nullable<int> RTS
-		{
-			get
-			{
-				return this._RTS;
-			}
-			set
-			{
-				if ((this._RTS != value))
-				{
-					this.OnRTSChanging(value);
-					this.SendPropertyChanging();
-					this._RTS = value;
-					this.SendPropertyChanged("RTS");
-					this.OnRTSChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_XonXoff", DbType="Int")]
-		public System.Nullable<int> XonXoff
-		{
-			get
-			{
-				return this._XonXoff;
-			}
-			set
-			{
-				if ((this._XonXoff != value))
-				{
-					this.OnXonXoffChanging(value);
-					this.SendPropertyChanging();
-					this._XonXoff = value;
-					this.SendPropertyChanged("XonXoff");
-					this.OnXonXoffChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Connection_Device", Storage="_Devices", ThisKey="ID", OtherKey="ConnectionID")]
-		public EntitySet<Device> Devices
-		{
-			get
-			{
-				return this._Devices;
-			}
-			set
-			{
-				this._Devices.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="ConnectionType_Connection", Storage="_ConnectionType", ThisKey="ConnectionTypeID", OtherKey="ID", IsForeignKey=true)]
-		public ConnectionType ConnectionType
-		{
-			get
-			{
-				return this._ConnectionType.Entity;
-			}
-			set
-			{
-				ConnectionType previousValue = this._ConnectionType.Entity;
+				Folder previousValue = this._Folder.Entity;
 				if (((previousValue != value) 
-							|| (this._ConnectionType.HasLoadedOrAssignedValue == false)))
+							|| (this._Folder.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._ConnectionType.Entity = null;
-						previousValue.Connections.Remove(this);
+						this._Folder.Entity = null;
+						previousValue.FolderDocuments.Remove(this);
 					}
-					this._ConnectionType.Entity = value;
+					this._Folder.Entity = value;
 					if ((value != null))
 					{
-						value.Connections.Add(this);
-						this._ConnectionTypeID = value.ID;
+						value.FolderDocuments.Add(this);
+						this._FolderID = value.ID;
 					}
 					else
 					{
-						this._ConnectionTypeID = default(int);
+						this._FolderID = default(int);
 					}
-					this.SendPropertyChanged("ConnectionType");
+					this.SendPropertyChanged("Folder");
 				}
 			}
 		}
@@ -1690,18 +2060,6 @@ namespace DeviceManagerService
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
-		}
-		
-		private void attach_Devices(Device entity)
-		{
-			this.SendPropertyChanging();
-			entity.Connection = this;
-		}
-		
-		private void detach_Devices(Device entity)
-		{
-			this.SendPropertyChanging();
-			entity.Connection = null;
 		}
 	}
 }

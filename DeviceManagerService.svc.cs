@@ -8,6 +8,7 @@ using System.Data.Common.CommandTrees;
 using System.Data.Services;
 using System.Data.Services.Common;
 using System.Linq;
+using System.ServiceModel;
 using System.ServiceModel.Web;
 
 namespace DeviceManagerService
@@ -24,11 +25,11 @@ namespace DeviceManagerService
         }
 
         DeviceDatabaseClassesDataContext db = new DeviceDatabaseClassesDataContext();
-
-        [WebGet(UriTemplate = "name?name={name}")]
+        
+        [WebGet(UriTemplate = "?name='{name}'")]
         public IQueryable<Device> GetDevicesByName(string name)
         {
-            var x =
+            IQueryable<Device> x =
                 from d in db.Devices
                 where d.Name.Contains(name)
                 select d;
@@ -36,7 +37,7 @@ namespace DeviceManagerService
             return x.AsQueryable();
         }
 
-        [WebGet(UriTemplate = "id?id={id}")]
+        [WebGet(UriTemplate = "?id={id}")]
         public IQueryable<Device> GetDevicesById(int id)
         {
             var x = from d in db.Devices
@@ -45,7 +46,6 @@ namespace DeviceManagerService
             return x.AsQueryable();
         }
 
-        [WebGet]
         public IQueryable<Device> GetDevicesByParent(int pid)
         {
             var nodes = from n in db.Nodes

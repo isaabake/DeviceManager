@@ -92,7 +92,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Device.cs" />
+    <Compile Include="BusinessObjects.cs" />
     <Compile Include="DeviceDatabaseClasses.cs">
       <DependentUpon>DeviceDatabaseClasses.dbml</DependentUpon>
     </Compile>

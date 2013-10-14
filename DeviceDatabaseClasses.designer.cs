@@ -169,7 +169,7 @@ namespace DeviceManagerService
 		
 		private string _Parity;
 		
-		private System.Nullable<int> _RTSCTS;
+		private System.Nullable<bool> _RTSCTS;
 		
 		private System.Nullable<bool> _DTR;
 		
@@ -177,7 +177,7 @@ namespace DeviceManagerService
 		
 		private System.Nullable<bool> _XonXoff;
 		
-		private System.Nullable<int> _PhoneNumber;
+		private string _PhoneNumber;
 		
 		private string _ATString;
 		
@@ -205,7 +205,7 @@ namespace DeviceManagerService
     partial void OnStopBitsChanged();
     partial void OnParityChanging(string value);
     partial void OnParityChanged();
-    partial void OnRTSCTSChanging(System.Nullable<int> value);
+    partial void OnRTSCTSChanging(System.Nullable<bool> value);
     partial void OnRTSCTSChanged();
     partial void OnDTRChanging(System.Nullable<bool> value);
     partial void OnDTRChanged();
@@ -213,7 +213,7 @@ namespace DeviceManagerService
     partial void OnRTSChanged();
     partial void OnXonXoffChanging(System.Nullable<bool> value);
     partial void OnXonXoffChanged();
-    partial void OnPhoneNumberChanging(System.Nullable<int> value);
+    partial void OnPhoneNumberChanging(string value);
     partial void OnPhoneNumberChanged();
     partial void OnATStringChanging(string value);
     partial void OnATStringChanged();
@@ -354,8 +354,8 @@ namespace DeviceManagerService
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RTSCTS", DbType="Int")]
-		public System.Nullable<int> RTSCTS
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RTSCTS", DbType="Bit")]
+		public System.Nullable<bool> RTSCTS
 		{
 			get
 			{
@@ -434,8 +434,8 @@ namespace DeviceManagerService
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PhoneNumber", DbType="Int")]
-		public System.Nullable<int> PhoneNumber
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PhoneNumber", DbType="VarChar(50)")]
+		public string PhoneNumber
 		{
 			get
 			{
@@ -927,7 +927,7 @@ namespace DeviceManagerService
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="VarChar(32) NOT NULL", CanBeNull=false)]
 		public string Name
 		{
 			get
@@ -1017,6 +1017,8 @@ namespace DeviceManagerService
 		
 		private string _FIDString;
 		
+		private string _GlobalDeviceID;
+		
 		private EntitySet<Node> _Nodes;
 		
 		private EntitySet<DeviceDocument> _DeviceDocuments;
@@ -1047,6 +1049,8 @@ namespace DeviceManagerService
     partial void OnPartNumberChanged();
     partial void OnFIDStringChanging(string value);
     partial void OnFIDStringChanged();
+    partial void OnGlobalDeviceIDChanging(string value);
+    partial void OnGlobalDeviceIDChanged();
     #endregion
 		
 		public Device()
@@ -1078,7 +1082,7 @@ namespace DeviceManagerService
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="VarChar(128)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="VarChar(128) NOT NULL", CanBeNull=false)]
 		public string Name
 		{
 			get
@@ -1166,7 +1170,7 @@ namespace DeviceManagerService
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SerialNumber", DbType="Char(10)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SerialNumber", DbType="VarChar(64)")]
 		public string SerialNumber
 		{
 			get
@@ -1242,6 +1246,26 @@ namespace DeviceManagerService
 					this._FIDString = value;
 					this.SendPropertyChanged("FIDString");
 					this.OnFIDStringChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GlobalDeviceID", DbType="VarChar(64)")]
+		public string GlobalDeviceID
+		{
+			get
+			{
+				return this._GlobalDeviceID;
+			}
+			set
+			{
+				if ((this._GlobalDeviceID != value))
+				{
+					this.OnGlobalDeviceIDChanging(value);
+					this.SendPropertyChanging();
+					this._GlobalDeviceID = value;
+					this.SendPropertyChanged("GlobalDeviceID");
+					this.OnGlobalDeviceIDChanged();
 				}
 			}
 		}
@@ -1773,7 +1797,7 @@ namespace DeviceManagerService
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="VarChar(128) NOT NULL", CanBeNull=false)]
 		public string Name
 		{
 			get

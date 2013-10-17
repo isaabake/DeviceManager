@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.20827.3
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceManagerService", "DeviceManagerService.csproj", "{0A35CFA8-1D11-4922-A32B-F899577D7644}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OdataWebApp", "OdataWebApp\OdataWebApp.csproj", "{574C1F80-C2DA-48C3-B064-637C8FA8D065}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +15,10 @@ Global
 		{0A35CFA8-1D11-4922-A32B-F899577D7644}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A35CFA8-1D11-4922-A32B-F899577D7644}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A35CFA8-1D11-4922-A32B-F899577D7644}.Release|Any CPU.Build.0 = Release|Any CPU
+		{574C1F80-C2DA-48C3-B064-637C8FA8D065}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{574C1F80-C2DA-48C3-B064-637C8FA8D065}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{574C1F80-C2DA-48C3-B064-637C8FA8D065}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{574C1F80-C2DA-48C3-B064-637C8FA8D065}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

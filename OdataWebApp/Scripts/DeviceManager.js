@@ -103,6 +103,7 @@
      'FolderDocuments': { type: $data.EntitySet, elementType: DeviceManagerService.FolderDocument},
      'GetDevicesByName': { type: $data.ServiceOperation, returnType: $data.Queryable, elementType: 'DeviceManagerService.Device', 'EntitySet': 'Devices', method: 'GET', params: [{ name: 'name', type: 'Edm.String' }] },
      'GetById': { type: $data.ServiceOperation, returnType: $data.Queryable, elementType: 'DeviceManagerService.Device', 'EntitySet': 'Devices', method: 'GET', params: [{ name: 'id', type: 'Edm.Int32' }] },
+     'GetByPid': { type: $data.ServiceOperation, returnType: $data.Queryable, elementType: 'DeviceManagerService.Device', 'EntitySet': 'Devices', method: 'GET', params: [{ name: 'pid', type: 'Edm.Int32' }] },
      'RetrieveAll': { type: $data.ServiceOperation, returnType: 'Edm.String', method: 'GET', params: [{ name: 'type', type: 'Edm.String' }, { name: 'criteria', type: 'Edm.String' }] }
   });
 

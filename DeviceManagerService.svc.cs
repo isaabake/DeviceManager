@@ -53,6 +53,16 @@ namespace DeviceManagerService
             return x;
         }
 
+        [WebGet(UriTemplate = "?pid={pid}")]
+        public IQueryable<Device> GetByPid(int pid)
+        {
+            IQueryable<Device> x = from d in db.Devices
+                                   join n in db.Nodes on d.ID equals n.ID
+                                   where n.ParentID.Equals(pid)
+                                   select d;
+            return x;
+        }
+
 
         [WebGet(UriTemplate = "?type='{type}'")]
         public string RetrieveAll(string type, string criteria)

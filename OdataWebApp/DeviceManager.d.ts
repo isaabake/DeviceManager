@@ -142,6 +142,13 @@ declare module DeviceManagerService {
       (params: {id?: number; }, handler: (result: DeviceManagerService.Device[]) => void): $data.IPromise;
       (handler: (result: DeviceManagerService.Device[]) => void): $data.IPromise;
     };
+    GetByPid: {
+      (pid: number): $data.Queryable<DeviceManagerService.Device>;
+      (params?: { pid?: number; }): $data.Queryable<DeviceManagerService.Device>;
+      (pid: number, handler: (result: DeviceManagerService.Device[]) => void): $data.IPromise;
+      (params: {pid?: number; }, handler: (result: DeviceManagerService.Device[]) => void): $data.IPromise;
+      (handler: (result: DeviceManagerService.Device[]) => void): $data.IPromise;
+    };
     RetrieveAll: {
       (type: string, criteria: string, handler?: (result: string) => void): $data.IPromise;
       (params?: { type?: string; criteria?: string; }, handler?: (result: string) => void): $data.IPromise;

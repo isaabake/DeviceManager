@@ -33,14 +33,21 @@
             window['deviceManager'] = deviceManager;
             deviceManager.onReady(function () {
                 //things that should be done automatically on startup done here.
+
                 //the following line takes all the devices, turns them into an array,
                 //and passes it to initTable
-                deviceManager.Devices.toArray(initTable);
+                //deviceManager.Devices.toArray(initTable);
+
+                devicesByParent(0);
             });
             // END OF OPTION 1
 
             function generateTable() {
 
+            }
+
+            function devicesByParent(id) {
+                deviceManager.GetByPid(id).toArray(initTable);
             }
 
             function devicesById(id) {

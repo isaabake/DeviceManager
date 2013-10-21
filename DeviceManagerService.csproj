@@ -93,6 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BusinessObjects.cs" />
+    <Compile Include="DataSet.cs" />
     <Compile Include="DeviceDatabaseClasses.cs">
       <DependentUpon>DeviceDatabaseClasses.dbml</DependentUpon>
     </Compile>
@@ -113,6 +114,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="packages.config" />
+    <Content Include="ClassDiagram1.cd" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

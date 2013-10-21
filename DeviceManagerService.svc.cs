@@ -54,63 +54,54 @@ namespace DeviceManagerService
         }
 
 
-        [WebGet(UriTemplate = "?type='{type}'")]
-        public string RetrieveAll(string type, string criteria)
+        /// <summary>
+        /// This function retrieves all devices and connection information. Call RetrieveDocument to fetch specific documents
+        /// </summary>
+        /// <returns></returns>
+        [WebGet(UriTemplate="?query='{query}'")]
+        public IQueryable<IEnumerable<DataSet>> Retrieve(string query)
         {
-            if (type == "Device")
+            Dictionary<string, string> queryDic = new Dictionary<string, string>();
+            foreach (string param in query.Split(';'))
             {
-                //Dictionary<string, string> criteriaDic = new Dictionary<string, string>();
-                //foreach (string param in criteria.Split(';'))
-                //{
-                //    //param.Split('=')
-                //}
-                List<DeviceBO> devices = new List<DeviceBO>();
-                foreach (Device d in db.Devices)
-                {
-                    DeviceBO deviceBO = new DeviceBO();
-                    deviceBO.ID = d.ID;
-                    deviceBO.Name = d.Name;
-                    deviceBO.PartNumber = d.PartNumber;
-                    deviceBO.SerialNumber = d.SerialNumber;
-                    deviceBO.FirmwareRevision = d.FirmwareRevision;
-                    deviceBO.FIDString = d.FIDString;
-                    deviceBO.Description = d.Description;
-
-                    //deviceBO.Connection = new ConnectionBO();
-                    //deviceBO.Connection.ATString = d.Connection.ATString;
-                    //deviceBO.Connection.BaudRate = d.Connection.BaudRate;
-                    //deviceBO.Connection.ConnectionType = d.Connection.ConnectionType.Name;
-                    //deviceBO.Connection.DataBits = d.Connection.DataBits;
-                    //deviceBO.Connection.DTR = d.Connection.DTR;
-                    //deviceBO.Connection.ID = d.Connection.ID;
-                    //deviceBO.Connection.IPAddress = d.Connection.IPAddress;
-                    //deviceBO.Connection.Parity = d.Connection.Parity;
-                    //deviceBO.Connection.PhoneNumber = d.Connection.PhoneNumber;
-                    //deviceBO.Connection.PortNumber = d.Connection.PortNumber;
-                    //deviceBO.Connection.RTS = d.Connection.RTS;
-                    //deviceBO.Connection.RTSCTS = d.Connection.RTSCTS;
-                    //deviceBO.Connection.StopBits = d.Connection.StopBits;
-                    //deviceBO.Connection.XonXoff = d.Connection.XonXoff;
-
-                    devices.Add(deviceBO);
-                }
-                //= (db.Devices.AsQueryable());
-                //IQueryable<Device> devices = from d in db.Devices
-                //where d.ID.Equals(id)
-                //select d;
-                //foreach(Device d in devices)
-                //{
-                //     IQueryable<DeviceType> devicetype = from dt in db.DeviceTypes
-                //                                         where dt.ID == d.
-
-                //}
-                //IQueryable<DeviceType> devicetype 
-                return "";
-                //return devices.AsQueryable<DeviceBO>();
+                string[] temp = param.Split('=');
+                queryDic.Add(temp[0], temp[1]);
             }
 
-            return null;
+            List<List<DataSet>> devices = new List<List<DataSet>>();
+            foreach (Device d in db.Devices.Where(d => d.Name.Contains(queryDic["name"])))
+            {
+                List<DataSet> deviceData = new List<DataSet>();
+                DeviceBO deviceBO = new DeviceBO();
+                deviceBO.ID = d.ID;
+                deviceBO.Name = d.Name;
+                deviceBO.PartNumber = d.PartNumber;
+                deviceBO.SerialNumber = d.SerialNumber;
+                deviceBO.FirmwareRevision = d.FirmwareRevision;
+                deviceBO.FIDString = d.FIDString;
+                deviceBO.Description = d.Description;
 
+                //deviceBO.Connection = new ConnectionBO();
+                //deviceBO.Connection.ATString = d.Connection.ATString;
+                //deviceBO.Connection.BaudRate = d.Connection.BaudRate;
+                //deviceBO.Connection.ConnectionType = d.Connection.ConnectionType.Name;
+                //deviceBO.Connection.DataBits = d.Connection.DataBits;
+                //deviceBO.Connection.DTR = d.Connection.DTR;
+                //deviceBO.Connection.ID = d.Connection.ID;
+                //deviceBO.Connection.IPAddress = d.Connection.IPAddress;
+                //deviceBO.Connection.Parity = d.Connection.Parity;
+                //deviceBO.Connection.PhoneNumber = d.Connection.PhoneNumber;
+                //deviceBO.Connection.PortNumber = d.Connection.PortNumber;
+                //deviceBO.Connection.RTS = d.Connection.RTS;
+                //deviceBO.Connection.RTSCTS = d.Connection.RTSCTS;
+                //deviceBO.Connection.StopBits = d.Connection.StopBits;
+                //deviceBO.Connection.XonXoff = d.Connection.XonXoff;
+
+                devices.Add(deviceBO.AsDataSet());
+            }
+
+
+            return devices.AsQueryable();
         }
 
 
